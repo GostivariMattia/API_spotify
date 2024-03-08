@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <title>Hello, world!</title>
+  </head>
+  <body>
+    
+
+    <table>
+        <thead></thead>
+    </table>
+
+    
+<script>
+var acces_token="BQApGTmyuh5UfVWSSpZ49K-nDwQi8yx0gQpI7XAOaYx9ab1FpIedpx9AkjcMz5nkApPAg1qfstWeeeTV3T6BicBMI13CiRu__HMFmPBPBE2cBpVh_zW7a8lQFWr8czyOKtfRUaj5mQ9Vm1-LVDKMOXeHWUf28ySHmLxfo6nyyOWi4tcNH1Cpj4xbGt4_0dlh8FUnjQPzR8nKwwjlB_n0";
+var album_id="1WeHoP0y9QcQqgpa5xgMAh";
+async function fetchAlbumData(){
+    try{
+        const response = await fetch(`http://api.spotify.com/v1/album/${album_id}`,{
+        headers: {
+            'Authorization': 'Bearer '+acces_token        
+    }
+});
+
+if(!response.ok){
+    throw new Error('Errore nella richiesta: '+response.status);
+}
+const userData = await response.json();
+return userData;
+    }catch (error){
+        console.error("Errore durante la richiesta:",error)
+        return null;
+    }
+}
+
+async function renderTable(){
+    try{
+        const jsonAlbumData = await fetchAlbumData();
+        let tbody = "<tr>";
+        tbody += `<td>${jsonAlbumData["artist"][0]["name"]}</td>`;
+        tbody += `<td>${jsonAlbumData["name"]}</td>`;
+        tbody += `<td><img src="${jsonAlbumData["images"][0]["url"]}" alt="Copertina" style="width: 100px;"></td>`;
+        tbody += `<td><a href="${jsonAlbumData["external_urls"]["spotify"]}">Ascolta</a></td>`;
+        tbody += "</tr>";
+    document.getElementById("tbody").innerHTML = tbody;
+        }catch(error){
+            console.error("errore durante il rendering della tabella ", error);
+        }
+
+    }
+
+renderTable()
+
+
+
+</script>
+<!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  </body>
+</html>
