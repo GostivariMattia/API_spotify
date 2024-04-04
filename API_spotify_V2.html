@@ -29,7 +29,7 @@
       </table>
     
 <script>
-var access_token="BQBuNZ6CU-fwfZv_R3QyfCHbI8_xptgSQBjAqMPsoUTVa7G-uhnbtCZVaojfKPjkGU40kQpTum1ScPrvqsYF2aWT7MpOMaQq8_N9YMnwWFef49cfr3XLWlymNBq6ha6iGkNzplbvGQYXyApH5QzAWEBSVui9u1UWXpKok1NhBHm1xn8Rw4eUgWFgoWUcrIyis3Frrc4zgRhN4GwU6cOV";
+var access_token="BQA8sHC7A6u0xWnyn8zNgowR5f9JZfzrjKPwHJFvA4EO7D9zk8rFeFZe6TkjAX67SRhIucVwVoTw4uD9pMJGD2zMIqvcgX9cfZxYN3E_7w-B0osWpwrGvksKBCiGmW1J97hmHz1t1hq0ewIAcCWU3B5w9QaWvza96pZTnF6l0Ni8ThE8k-e2HKxdkLf7DsDGm296LIIlEYsB94GgHztd";
 var album_id="1WeHoP0y9QcQqgpa5xgMAh";
 
 
@@ -61,13 +61,18 @@ async function renderTable(){
         
         const jsonRecentPlayedData = await fetchRecentPlayedData();
         console.log(jsonRecentPlayedData["items"]);
-        let tbody = "<tr>";
-        tbody += `<td>${jsonRecentPlayedData["items"]["track"]["album"][]}</td>`;
-        tbody += `<td>${jsonRecentPlayedData["name"]}</td>`;
-        tbody += `<td><img src="${jsonRecentPlayedData["images"][0]["url"]}" alt="Copertina" style="width: 100px;"></td>`;
-        tbody += `<td><a href="${jsonRecentPlayedData["external_urls"]["spotify"]}">Play</a></td>`;
-        tbody += "</tr>";
-    document.getElementById("tbody").innerHTML = tbody;
+        console.log(jsonRecentPlayedData["items"][0]["track"]["album"]["name"]);
+        
+        for(let j=0;j<20;j++){
+          let tbody = "<tr>";
+          tbody += `<td>${jsonRecentPlayedData["items"][j]["track"]["album"]["name"]}</td>`;
+          tbody += `<td>${jsonRecentPlayedData["items"][j]["track"]["artists"][0]["name"]}</td>`;
+          tbody += `<td><img src="${jsonRecentPlayedData["items"][j]["track"]["album"]["images"][0]["url"]}" alt="Copertina" style="width: 100px;"></td>`;
+          tbody += `<td><a href="${jsonRecentPlayedData["items"][j]["track"]["external_urls"]["spotify"]}">Play</a></td>`;
+          tbody += "</tr>";
+          document.getElementById("tbody").innerHTML += tbody;
+        }
+    
         }catch(error){
             console.error("errore durante il rendering della tabella ", error);
         }
