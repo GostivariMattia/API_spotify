@@ -18,8 +18,9 @@
           <tr>
             <th scope="col">Autore</th>
             <th scope="col">Titolo</th>
-            <th scope="col">Copertina</th>
-            <th scope="col">Ascolta</th>
+            <th scope="col">Copertina Album</th>
+            <th scope="col">Ascolta brano</th>
+            <th scope="col">visualizza album</th>
           </tr>
         </thead>
         <tbody id="tbody">
@@ -65,10 +66,11 @@ async function renderTable(){
         
         for(let j=0;j<20;j++){
           let tbody = "<tr>";
-          tbody += `<td>${jsonRecentPlayedData["items"][j]["track"]["album"]["name"]}</td>`;
-          tbody += `<td>${jsonRecentPlayedData["items"][j]["track"]["artists"][0]["name"]}</td>`;
+          tbody += `<td><a href="${jsonRecentPlayedData["items"][j]["track"]["artists"][0]["external_urls"]["spotify"]}"> ${jsonRecentPlayedData["items"][j]["track"]["artists"][0]["name"]}  </a></td>`
+          tbody += `<td>${jsonRecentPlayedData["items"][j]["track"]["name"]}</td>`;
           tbody += `<td><img src="${jsonRecentPlayedData["items"][j]["track"]["album"]["images"][0]["url"]}" alt="Copertina" style="width: 100px;"></td>`;
-          tbody += `<td><a href="${jsonRecentPlayedData["items"][j]["track"]["external_urls"]["spotify"]}">Play</a></td>`;
+          tbody += `<td><a href="${jsonRecentPlayedData["items"][j]["track"]["external_urls"]["spotify"]}"><img src="logo.png" alt="logo" style="width: 100px;"</a></td>`;
+          tbody += `<td><a href="${jsonRecentPlayedData["items"][j]["track"]["album"]["external_urls"]["spotify"]}">${jsonRecentPlayedData["items"][j]["track"]["album"]["name"]}</a></td>`;
           tbody += "</tr>";
           document.getElementById("tbody").innerHTML += tbody;
         }
